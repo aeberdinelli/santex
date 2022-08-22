@@ -26,8 +26,8 @@ export class SantexStack extends Stack {
 
     const graphqlLambda = new lambda.Function(this, 'AppSyncHandler', {
       runtime: lambda.Runtime.NODEJS_12_X,
-      handler: 'src/lambda/graphql.handler',
-      code: lambda.Code.fromAsset('src'),
+      handler: 'graphql.handler',
+      code: lambda.Code.fromAsset('src/lambda'),
       memorySize: 1024
     });
     
@@ -39,18 +39,22 @@ export class SantexStack extends Stack {
       fieldName: "players"
     });
     
-    lambdaDs.createResolver({
-      typeName: "Mutation",
-      fieldName: "importLeague"
-    });
+    //lambdaDs.createResolver({
+      //typeName: "Mutation",
+      //fieldName: "importLeague"
+    //});
 
     // Tables
     const playersTable = new dynamodb.Table(this, 'CDKPlayersTable', {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
-        name: 'id',
+        name: 'league',
         type: dynamodb.AttributeType.STRING,
       },
+      sortKey: {
+        name: 'id',
+        type: dynamodb.AttributeType.STRING
+      }
     });
 
     new dynamodb.Table(this, 'CDKTeamsTable', {

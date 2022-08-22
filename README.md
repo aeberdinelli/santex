@@ -5,4 +5,8 @@ Welcome to my Code Challenge for Santex. I've built this using AWS CDK, AppSync,
 ...
 
 ## Deploy
-...
+To deploy, use following steps:
+
+- `yarn run build` to build TS
+- `cdk bootstrap` to deploy bucket and other services required by CDK
+-  `cdk deploy` to deploy

@@ -16,8 +16,8 @@ exports.handler = async (event: AppSyncEvent) => {
   switch (event.info.fieldName) {
     case "players":
       return await getPlayers(leagueCode);
-    case "importLeague": 
-      return await importLeague(leagueCode);
+    //case "importLeague": 
+      //return await importLeague(leagueCode);
     default:
       return null;
   }
