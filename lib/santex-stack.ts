@@ -39,10 +39,10 @@ export class SantexStack extends Stack {
       fieldName: "players"
     });
     
-    //lambdaDs.createResolver({
-      //typeName: "Mutation",
-      //fieldName: "importLeague"
-    //});
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "importLeague"
+    });
 
     // Tables
     const playersTable = new dynamodb.Table(this, 'CDKPlayersTable', {
@@ -57,7 +57,7 @@ export class SantexStack extends Stack {
       }
     });
 
-    new dynamodb.Table(this, 'CDKTeamsTable', {
+    const teamsTable = new dynamodb.Table(this, 'CDKTeamsTable', {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
@@ -65,7 +65,7 @@ export class SantexStack extends Stack {
       },
     });
 
-    new dynamodb.Table(this, 'CDKCompetitionsTable', {
+    const competitionsTable = new dynamodb.Table(this, 'CDKCompetitionsTable', {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
@@ -75,6 +75,13 @@ export class SantexStack extends Stack {
 
     // Grant access
     playersTable.grantFullAccess(graphqlLambda);
+
+    // Add some env vars
+    graphqlLambda.addEnvironment('API_KEY', process.env.API_KEY!);
+    graphqlLambda.addEnvironment('API_URL', process.env.API_URL!);
+    graphqlLambda.addEnvironment('REQUESTS_LIMIT', process.env.REQUESTS_LIMIT!);
+    graphqlLambda.addEnvironment('TEAMS_TABLE', teamsTable.tableName);
     graphqlLambda.addEnvironment('PLAYERS_TABLE', playersTable.tableName);
+    graphqlLambda.addEnvironment('COMPETITIONS_TABLE', competitionsTable.tableName);
   }
 }
