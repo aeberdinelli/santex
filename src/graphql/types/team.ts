@@ -1,3 +1,5 @@
+import { Player } from "./player";
+
 export type TeamResponse = {
   area: {
     id: number,
@@ -128,6 +130,7 @@ export type Team = {
   tla: string;
   shortName: string;
   areaName: string;
+  players: Player[];
   league: string;
   id: string;
 }

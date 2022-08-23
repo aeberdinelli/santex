@@ -38,6 +38,11 @@ export class SantexStack extends Stack {
       typeName: "Query",
       fieldName: "players"
     });
+
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "team"
+    });
     
     lambdaDs.createResolver({
       typeName: "Mutation",
@@ -55,6 +60,14 @@ export class SantexStack extends Stack {
       sortKey: {
         name: 'id',
         type: dynamodb.AttributeType.STRING
+      },
+    });
+
+    playersTable.addGlobalSecondaryIndex({
+      indexName: 'teamIndex',
+      partitionKey: {
+        name: 'team',
+        type: dynamodb.AttributeType.STRING
       }
     });
 
@@ -62,9 +75,13 @@ export class SantexStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
-        name: 'id',
+        name: 'name',
         type: dynamodb.AttributeType.STRING,
       },
+      sortKey: {
+        name: 'id',
+        type: dynamodb.AttributeType.STRING
+      }
     });
 
     const competitionsTable = new dynamodb.Table(this, 'CDKCompetitionsTable', {

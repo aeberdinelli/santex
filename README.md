@@ -1,6 +1,13 @@
 # Santex Code Challenge
 Welcome to my Code Challenge for Santex. I've built this using AWS CDK, AppSync, DynamoDB and TS. I recommend using yarn for running the project because is faster.
 
+## Requirements
+You need the following pre requirements:
+
+- NodeJS
+- yarn (`npm install -g yarn` - you can use npm if you prefer)
+- AWS CLI
+
 ## Setup
 Rename the `.env.example` file to `.env` and update the values with your desired settings. Keep in mind that a key for the Football Data API is required.
 
@@ -8,5 +15,7 @@ Rename the `.env.example` file to `.env` and update the values with your desired
 To deploy, use following steps:
 
 - `yarn run build` to build TS
-- `cdk bootstrap` to deploy bucket and other services required by CDK
--  `cdk deploy` to deploy
+- `cdk bootstrap` to deploy CDK dependencies
+- `yarn run deploy` to deploy
+
+## Test it out

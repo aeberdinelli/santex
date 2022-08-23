@@ -49,6 +49,7 @@ export async function importLeague(leagueCode: string): Promise<Team[]> {
             countryOfBirth: player.nationality,
             nationality: player.nationality,
             league: leagueCode,
+            team: team.name,
             id: uuid()
           }
         }
@@ -92,5 +93,13 @@ export async function importLeague(leagueCode: string): Promise<Team[]> {
     }).promise();
   }
 
-  return teamsToPut.map(batchRequest => batchRequest.PutRequest.Item) as Team[];
+  // @todo: refactor players & teams return to remove complexity
+  return teamsToPut.map(batchRequest => {
+    return { 
+      ...batchRequest.PutRequest.Item,
+      players: playersToPut.filter(
+        batchItem => batchItem.PutRequest.Item.team === batchRequest.PutRequest.Item.name
+      )
+    };
+  }) as Team[];
 }

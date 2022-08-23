@@ -5,5 +5,6 @@ export type Player = {
   countryOfBirth?: string;
   nationality?: string;
   league: string;
+  team: string;
   id: string;
 }

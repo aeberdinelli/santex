@@ -5,14 +5,6 @@ type Competition {
   areaName: String   
 }
 
-type Team {
-  id: ID!
-  name: String!
-  tla: String
-  shortName: String
-  areaName: String
-}
-
 type Player {
   id: ID!
   name: String!
@@ -23,8 +15,18 @@ type Player {
   league: String
 }
 
+type Team {
+  id: ID!
+  name: String!
+  tla: String
+  shortName: String
+  areaName: String
+  players: [Player]
+}
+
 type Query {
   players(leagueCode: String!): [Player]
+  team(teamName: String!): Team
 }
 
 type Mutation {
