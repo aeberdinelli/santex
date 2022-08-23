@@ -14,6 +14,7 @@ Rename the `.env.example` file to `.env` and update the values with your desired
 ## Deploy
 To deploy, use following steps:
 
+- `cd src && yarn` to install lambda dependencies
 - `yarn run build` to build TS
 - `cdk bootstrap` to deploy CDK dependencies
 - `yarn run deploy` to deploy
