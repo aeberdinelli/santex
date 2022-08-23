@@ -30,4 +30,7 @@ SantexStack.StackRegion = us-east-1
 Use that API Key to test the GraphQL API.
 
 ## Test it out
-You can go into the AWS AppSync console to run some queries more easily (see examples below), or you can use any other tool you are familiar with, maybe curl?.
+You can go into the AWS AppSync console to run some queries more easily (**see examples below**), or you can use any other tool you are familiar with, maybe curl?.
+
+![Players Query](https://raw.githubusercontent.com/aeberdinelli/santex/master/showcase/Screen%20Shot%202022-08-23%20at%2002.25.12.png)
+![Team Query](https://raw.githubusercontent.com/aeberdinelli/santex/master/showcase/Screen%20Shot%202022-08-23%20at%2002.24.41.png)
