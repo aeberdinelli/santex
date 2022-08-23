@@ -7,7 +7,8 @@
   "scripts": {
     "build": "export $(cat .env | xargs) && tsc",
     "watch": "export $(cat .env | xargs) && tsc -w",
-    "cdk": "export $(cat .env | xargs) && cdk"
+    "cdk": "export $(cat .env | xargs) && cdk",
+    "deploy": "export $(cat .env | xargs) && cdk synth && cdk deploy"
   },
   "devDependencies": {
     "@aws-cdk/aws-applicationautoscaling": "^1.169.0",
@@ -17,8 +18,10 @@
     "@aws-cdk/aws-efs": "^1.169.0",
     "@aws-cdk/aws-kinesis": "^1.169.0",
     "@aws-cdk/aws-signer": "^1.169.0",
+    "@types/got": "^9.6.12",
     "@types/jest": "^27.5.2",
     "@types/node": "^18.7.10",
+    "@types/node-fetch": "^2.6.2",
     "@types/prettier": "2.6.0",
     "@types/source-map-support": "^0.5.4",
     "@types/uuid": "^8.3.4",
@@ -29,12 +32,14 @@
   "dependencies": {
     "@aws-cdk/aws-appsync": "^1.169.0",
     "@aws-cdk/aws-dynamodb": "^1.169.0",
+    "@aws-cdk/aws-iam": "^1.169.0",
     "@aws-cdk/aws-lambda": "^1.169.0",
     "@aws-cdk/core": "^1.169.0",
     "aws-cdk-lib": "2.38.1",
     "aws-sdk": "^2.1200.0",
     "axios": "^0.27.2",
     "constructs": "^10.0.0",
+    "got": "^12.3.1",
     "source-map-support": "^0.5.21",
     "uuid": "^8.3.2"
   },

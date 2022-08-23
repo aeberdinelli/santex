@@ -1,4 +1,4 @@
-import { Stack, StackProps, Construct, Expiration, Duration, CfnOutput } from '@aws-cdk/core';
+import { Stack, StackProps, Construct, Expiration, Duration, CfnOutput, RemovalPolicy } from '@aws-cdk/core';
 import * as appsync from '@aws-cdk/aws-appsync';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
@@ -26,8 +26,8 @@ export class SantexStack extends Stack {
 
     const graphqlLambda = new lambda.Function(this, 'AppSyncHandler', {
       runtime: lambda.Runtime.NODEJS_12_X,
-      handler: 'graphql.handler',
-      code: lambda.Code.fromAsset('src/lambda'),
+      handler: 'graphql/index.handler',
+      code: lambda.Code.fromAsset('src'),
       memorySize: 1024
     });
     
@@ -46,6 +46,7 @@ export class SantexStack extends Stack {
 
     // Tables
     const playersTable = new dynamodb.Table(this, 'CDKPlayersTable', {
+      removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'league',
@@ -58,6 +59,7 @@ export class SantexStack extends Stack {
     });
 
     const teamsTable = new dynamodb.Table(this, 'CDKTeamsTable', {
+      removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
@@ -66,6 +68,7 @@ export class SantexStack extends Stack {
     });
 
     const competitionsTable = new dynamodb.Table(this, 'CDKCompetitionsTable', {
+      removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
@@ -73,8 +76,11 @@ export class SantexStack extends Stack {
       },
     });
 
-    // Grant access
-    playersTable.grantFullAccess(graphqlLambda);
+    // Grant access    
+    [ playersTable, teamsTable, competitionsTable ].forEach(table => {
+      table.grantFullAccess(graphqlLambda);
+      table.grant(graphqlLambda, 'dynamodb:BatchWriteItem');
+    });
 
     // Add some env vars
     graphqlLambda.addEnvironment('API_KEY', process.env.API_KEY!);
