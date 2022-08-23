@@ -19,7 +19,7 @@ export async function importLeague(leagueCode: string): Promise<Team[]> {
   const teamsToPut: any[] = [];
   const playersToPut: any[] = [];
 
-  teamsResponse.teams.forEach((team, index) => {
+  teamsResponse.teams.forEach(team => {
     teamsToPut.push({
       PutRequest: {
         Item: {
@@ -82,7 +82,7 @@ export async function importLeague(leagueCode: string): Promise<Team[]> {
     }).promise();
   }
 
-  // Save players in batches of 25
+  // Save players in chunks of 25
   for (let i = 0; i < playersToPut.length;i += batchLimit) {
     const chunk = playersToPut.slice(i, i + batchLimit);
 
